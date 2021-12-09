@@ -23,7 +23,13 @@
 import TodoInput from './components/TodoInput'
 import TodoItem from './components/TodoItem'
 import TodoList from './components/TodoList'
-import firebase from 'firebase'
+
+import {DB} from './repositories/servicetodo'
+import {Addtodo} from './repositories/servicetodo'
+import {Deletetodo} from './repositories/servicetodo'
+import {Updatetodo} from './repositories/servicetodo'
+
+
 
 export default {
   data() {
@@ -31,6 +37,9 @@ export default {
       items : [],
       status : null,
     }
+  },
+  provide: {
+
   },
   mounted(){
     this.db.collection('todos').onSnapshot(snapshot => {
@@ -49,9 +58,7 @@ export default {
             }
             return item;
           })
-
         }
-
       })
     })
   },
@@ -64,23 +71,19 @@ export default {
         return this.items[this.itemsLength - 1].id + 1;
       }
       return 1;
-
     },
-    db() {
-        return firebase.firestore();
+    db(){
+       return DB()
     }
-
-
   },
   
-
   methods: {
     addTodo(todo){
       let todoItem = {
         todo,
         completed : false,
       }
-      this.db.collection('todos').add(todoItem)
+        Addtodo(todoItem)
     },
     checkItem(Id) {
      let item = this.items.find(item => item.id === Id);
@@ -91,18 +94,15 @@ export default {
       })
     },
     deleteTodo(Id) {
-      this.db.collection('todos').doc(Id).delete()
+       Deletetodo(Id)
     },
     updateTodo(todo){
-      this.db.collection('todos').doc(todo.id).update(todo)
-
+       Updatetodo(todo)
     },
     setStatus(val) {
       this.status = val;
-
     }
   },
-
   components: {
     TodoInput,
     TodoItem,

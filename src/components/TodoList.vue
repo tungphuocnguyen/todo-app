@@ -16,9 +16,8 @@ export default {
   methods: {
     setStatus(val) {
       this.$emit('setStatus',val)
-
     }
-  }
+  },
 }
 
 </script>
