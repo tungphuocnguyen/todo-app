@@ -24,9 +24,11 @@ export default {
   },
   methods : {
     check() {
+      console.log('con')
       this.$emit('checkItem',this.item.id)
     },
     deleteTodo(){
+      
       this.$emit('deleteTodo',this.item.id)
     },
     updateTodo() {
